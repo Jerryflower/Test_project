@@ -34,4 +34,4 @@ class SearchPage(BasePage):  # 定义一个名为 SearchPage 的类，继承自 
 
         logger.info("点击搜索按钮")  # 记录日志，表示正在加载测试数据
         self.click(*self.search_button)  # 调用基类中的 click 方法，点击搜索按钮
-        self.wait(5)
+        self.wait(3)
