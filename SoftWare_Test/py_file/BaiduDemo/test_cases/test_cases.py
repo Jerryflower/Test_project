@@ -64,20 +64,24 @@ def test_open(setup):
 def test_search(setup):
     """
     测试页面搜索功能。
-    - 从fixture中获取搜索页面对象和测试数据。
-    - 遍历测试数据中的搜索文本列表，并在页面上执行搜索操作。
+    1. 在网站首页输入第一条数据，进入搜索结果显示页面。
+    2. 在搜索结果页面循环输入剩余的数据并点击搜索按钮进行二次搜索。
     """
     sp, op, data = setup
-    logger.info("开始执行搜索测试...")
-
     text_list = data['text_list']
-    logger.info(f"获取到 {len(text_list)} 条搜索测试数据")
 
-    for i, text in enumerate(text_list, 1):
-        logger.info(f"正在执行第 {i} 条搜索: {text['content']}")
+    if not text_list:
+        pytest.skip("测试数据为空，跳过测试")
+
+    # 第一步：首页输入第一个搜索内容
+    logger.info(f"首页搜索：{text_list[0]['content']}")
+    sp.home_search_(text_list[0]['content'])
+    attach_screenshot(sp.driver, "Home_Search")
+
+    # 第二步：在搜索结果页循环输入剩余的搜索内容
+    for i, text in enumerate(text_list[1:], 1):
+        logger.info(f"结果页第 {i} 次搜索：{text['content']}")
         sp.search_(text['content'])
-        logger.info(f"第 {i} 条搜索完成")
-        attach_screenshot(sp.driver, "Search_Data")
+        attach_screenshot(sp.driver, f"Result_Search_{i}")
 
-    logger.info("所有搜索测试执行完成")
 
