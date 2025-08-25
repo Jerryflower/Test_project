@@ -17,7 +17,8 @@ class OpenPage(BasePage):  # 定义 OpenPage 类，并继承自 BasePage 类
     - 提供打开指定网页的方法。
     - 通过调用基类方法完成具体的浏览器行为。
     """
-    url = r'https://www.baidu.com'  # 定义类属性 url，存储要打开的目标网址（此处为百度首页）
+    # url = r'https://www.baidu.com'  # 定义类属性 url，存储要打开的目标网址（此处为百度首页）
+    url = r'http://39.156.70.239'  # 定义类属性 url，存储要打开的目标网址（此处为百度首页）
 
     def openurl(self):  # 定义 openurl 方法，用于打开指定网址
         """

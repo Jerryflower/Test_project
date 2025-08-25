@@ -11,12 +11,14 @@ logger = logging.getLogger(__name__)
 
 class SearchPage(BasePage):  # SearchPage类继承BasePage，封装搜索相关的操作
     # 百度首页搜索框和搜索按钮定位符
-    home_search_box = ('id', 'kw')
-    home_search_button = ('id', 'su')
+    # home_search_box = ('id', 'kw')
+    # home_search_button = ('id', 'su')
+    home_search_box = ('id', 'chat-textarea')
+    home_search_button = ('id', 'chat-submit-button')
 
     # 页面通用搜索框和搜索按钮定位符（如聊天输入框场景）
-    search_box = ('xpath', '//*[@id="chat-textarea"]')
-    search_button = ('xpath', '//*[@id="chat-submit-button"]')
+    search_box = ('id', 'chat-textarea')
+    search_button = ('id', 'chat-submit-button')
 
     def home_search_(self, text):  # 在百度首页进行搜索
         """
