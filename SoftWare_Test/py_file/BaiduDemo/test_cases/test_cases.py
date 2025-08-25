@@ -15,8 +15,14 @@ logger = logging.getLogger(__name__)  # 创建一个名为__name__的logger实�
 
 
 def attach_screenshot(driver, name):
-    # 截图并附加到 Allure 报告中
+    """
+    截图函数，用于将当前页面截图并附加到Allure报告中，便于问题追踪。
+    参数:
+        driver: 浏览器驱动对象
+        name (str): 截图的名称
+    """
     allure.attach(driver.get_screenshot_as_png(), name=name, attachment_type=allure.attachment_type.PNG)
+    logger.info(f"已添加截图到Allure报告，截图名称：{name}")  # 记录截图动作
 
 
 @pytest.fixture(scope='module')
@@ -36,13 +42,16 @@ def setup():
     logger.info("开始加载测试数据...")
     with open(r'D:\Tianyi_Cloud\learn\Py_ProJect\SoftWare_Test\py_file\BaiduDemo\test_data\order.yaml', 'r', encoding='utf-8') as file:
         data = yaml.safe_load(file)
+    logger.info("测试数据加载完成")
 
-    logger.info("测试数据加载完成，正在初始化浏览器驱动...")
+    logger.info("初始化浏览器驱动...")
     driver = driver_()
     sp = SearchPage(driver)
     op = OpenPage(driver)
-    logger.info("浏览器驱动和页面对象初始化完成")
+    logger.info("页面对象已实例化，准备开始测试")
+
     yield sp, op, data
+
     logger.info("测试结束，正在关闭浏览器驱动...")
     driver.quit()
     logger.info("浏览器驱动已关闭")
@@ -71,17 +80,18 @@ def test_search(setup):
     text_list = data['text_list']
 
     if not text_list:
+        logger.warning("测试数据为空，跳过搜索测试")  # 提前提示
         pytest.skip("测试数据为空，跳过测试")
 
     # 第一步：首页输入第一个搜索内容
     logger.info(f"首页搜索：{text_list[0]['content']}")
     sp.home_search_(text_list[0]['content'])
+    logger.info("首页搜索完成，准备截图")
     attach_screenshot(sp.driver, "Home_Search")
 
     # 第二步：在搜索结果页循环输入剩余的搜索内容
     for i, text in enumerate(text_list[1:], 1):
         logger.info(f"结果页第 {i} 次搜索：{text['content']}")
         sp.search_(text['content'])
+        logger.info(f"第 {i} 次搜索完成，准备截图")
         attach_screenshot(sp.driver, f"Result_Search_{i}")
-
-

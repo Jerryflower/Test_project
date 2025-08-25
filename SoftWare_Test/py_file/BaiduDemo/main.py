@@ -13,3 +13,9 @@ if __name__ == '__main__':  # 检查是否直接运行当前脚本
 
     # 使用操作系统命令 'allure serve' 来启动 Allure 本地服务，并在浏览器中展示生成的测试报告
     os.system("allure serve ./temps/allure")  # 'allure serve' 会读取指定的目录，并生成可视化的测试报告
+
+
+"""
+    在 cmd 中文件夹内执行完整的测试代码可实现一键测试、保存、展示三个功能
+    pytest && allure generate -c -o temps/allure-report && allure serve ./temps/allure
+"""
