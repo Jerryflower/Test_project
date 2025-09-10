@@ -3,7 +3,6 @@
 """
 from base_page.base_page import BasePage
 import logging
-import allure  # 引入allure库，用于生成Allure测试报告
 
 # 配置日志输出格式和等级
 logging.basicConfig(  # 配置logging模块的基本设置
