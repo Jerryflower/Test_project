@@ -8,6 +8,8 @@ import logging
 from base_page.driver_page import driver_
 from page_object.search_page import SearchPage
 from page_object.open_page import OpenPage
+from page_object.scroll_page import ScrollPage
+from page_object.flip_page import FlipPage
 
 # 配置日志输出格式和等级
 logging.basicConfig(  # 配置logging模块的基本设置
@@ -45,10 +47,10 @@ def setup():
 
     logger.info("初始化浏览器驱动...")  # 记录日志：开始初始化浏览器驱动
     driver = driver_()  # 调用driver_函数获取浏览器驱动实例
-    sp, op = SearchPage(driver), OpenPage(driver)  # 实例化搜索页面和打开页面对象
+    sp, op, scp, fp = SearchPage(driver), OpenPage(driver), ScrollPage(driver), FlipPage(driver)  # 实例化搜索页面和打开页面对象
     logger.info("页面对象实例化完成")  # 记录日志：页面对象实例化完成
 
-    yield sp, op, data  # 使用yield返回fixture提供的测试资源（页面对象和测试数据）
+    yield sp, op, scp, fp, data  # 使用yield返回fixture提供的测试资源（页面对象和测试数据）
 
     logger.info("测试结束，关闭浏览器...")  # 记录日志：测试结束，开始关闭浏览器
     driver.quit()  # 退出浏览器驱动
@@ -59,7 +61,7 @@ def test_open(setup):
     """
     测试打开百度首页
     """
-    sp, op, data = setup  # 从setup fixture中获取页面对象和测试数据
+    sp, op, scp, fp, data = setup  # 从setup fixture中获取页面对象和测试数据
     logger.info("执行 test_open：打开百度首页")  # 记录日志：开始执行打开首页测试
     op.openurl()  # 调用OpenPage对象的openurl方法打开百度首页
     attach_screenshot(op.driver, f"打开百度官网")  # 调用截图函数，将当前页面截图并附加到Allure报告
@@ -73,11 +75,25 @@ def test_search(setup):
     测试页面搜索功能：
         1. 搜索结果页循环输入剩余内容
     """
-    sp, op, data = setup  # 从setup fixture中获取页面对象和测试数据
+    sp, op, scp, fp, data = setup  # 从setup fixture中获取页面对象和测试数据
     text_list = data.get("text_list", [])  # 从测试数据中获取搜索关键词列表，默认为空列表
+    flip_num = 5  # 翻页次数
 
-    # 第一步：循环搜索剩余关键词
+    # 循环搜索剩余关键词
     for i, word in enumerate(text_list):  # 遍历关键词列表，i为索引，word为当前关键词字典
-        logger.info(f"结果页第 {i} 次搜索：{word['content']}")  # 记录日志：显示当前是第几次搜索及搜索内容
+        logger.info(f"结果页第 {i + 1} 次搜索：{word['content']}")  # 记录日志：显示当前是第几次搜索及搜索内容
+
         sp.search_(word["content"])  # 调用SearchPage对象的search_方法执行搜索操作
-        attach_screenshot(sp.driver, f"搜索结果_第{i}次_搜索：{word['content']}")  # 调用截图函数，将搜索结果页截图并附加到Allure报告
+        for p in range(2, flip_num + 2):
+            attach_screenshot(sp.driver, f"搜索结果_第{p - 1}页_搜索：{word['content']}-页首")  # 调用截图函数，将搜索结果页截图并附加到Allure报告
+            scp.scroll_()  # 页面滚动
+            attach_screenshot(sp.driver, f"搜索结果_第{p - 1}页_搜索：{word['content']}-页尾")  # 调用截图函数，将搜索结果页截图并附加到Allure报告
+            fp.flip_(p)  # 翻页位置
+
+
+
+
+
+
+
+

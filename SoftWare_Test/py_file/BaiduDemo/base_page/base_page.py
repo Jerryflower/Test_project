@@ -83,6 +83,19 @@ class BasePage:
         """
         return self.locator(by, value).text  # 获取元素中的文本信息
 
+    def href_info(self, by, value):
+        """
+        获取标签内的href内容数据。
+
+        参数:
+            by (str): 定位方式。
+            value (str): 定位值。
+
+        返回:
+            str: 获取到的文本内容。
+        """
+        return self.driver.find_element(by, value).get_attribute('href')  # 获取元素中的href内容
+
     @staticmethod  # 强制等待指定的时间，定义为静态方法，无需实例化类即可调用
     def wait(time):
         """
