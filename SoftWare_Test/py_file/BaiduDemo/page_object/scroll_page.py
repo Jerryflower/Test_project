@@ -23,5 +23,4 @@ class ScrollPage(BasePage):  # SearchPage类继承BasePage，封装搜索相关�
         """
         for i in range(1, self.scroll_times + 1):
             self.driver.execute_script(f"window.scrollTo(0, document.body.scrollHeight * {i}/{self.scroll_times});")  # 翻页位置
-            self.wait(1)
-        self.wait(3)
+            self.wait(2)

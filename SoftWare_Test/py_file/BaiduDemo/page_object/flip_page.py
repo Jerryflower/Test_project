@@ -28,8 +28,7 @@ class FlipPage(BasePage):  # SearchPage类继承BasePage，封装搜索相关的
         功能：
             1.实现翻页功能
         """
-        self.wait(5)
         self.click('xpath', self.page_text.format(index=flip_num))
-
+        self.wait(5)
 
 
