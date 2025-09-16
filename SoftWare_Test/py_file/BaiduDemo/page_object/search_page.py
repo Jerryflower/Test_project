@@ -2,6 +2,7 @@
     page_object 页面对象类(page_object)：用于定位输入框和搜索按钮点击
 """
 from base_page.base_page import BasePage
+from selenium.webdriver.remote.webdriver import WebDriver
 import logging
 import allure
 
@@ -21,6 +22,16 @@ class SearchPage(BasePage):  # SearchPage类继承BasePage，封装搜索相关�
     # 页面通用搜索框和搜索按钮定位符（如聊天输入框场景）
     search_box = ('id', 'chat-textarea')
     search_button = ('id', 'chat-submit-button')
+
+    def __init__(self, driver: WebDriver):  # 显式指定 driver 类型为 WebDriver
+        """
+        初始化 OpenPage 实例。
+
+        参数:
+            driver (WebDriver): Selenium 的 WebDriver 浏览器驱动对象
+        """
+        super().__init__(driver)  # 调用基类构造方法，初始化 driver
+        self.driver: WebDriver = driver  # 为 IDE/检查器提供明确的类型提示
 
     def take_screenshot(self, name="screenshot"):  # 定义截图方法，将截图附加到Allure报告中
         """

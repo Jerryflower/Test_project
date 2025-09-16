@@ -18,24 +18,4 @@ if __name__ == '__main__':  # 检查是否直接运行当前脚本
 """
     在 cmd 中文件夹内执行完整的测试代码可实现一键测试、保存、展示三个功能
     pytest && allure generate -c -o temps/allure-report && allure serve ./temps/allure
-
-# 2 连接拼接 https://www.baidu.com
-//*[@id="page"]/div/a[1]/@href
-# 2 跳转书签名称
-//*[@id="page"]/div/a[1]/span/text()
-
-
-# 3 连接拼接
-//*[@id="page"]/div/a[2]/@href
-# 3 跳转书签名称
-//*[@id="page"]/div/a[2]/span/text()
-
-
-# 4 连接拼接
-//*[@id="page"]/div/a[3]/@href
-# 4 跳转书签名称
-//*[@id="page"]/div/a[3]/span/text()
-
-
-完成翻页功能嵌入test_cases代码中
 """

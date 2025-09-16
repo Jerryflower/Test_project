@@ -2,6 +2,7 @@
     page_object 页面对象类(page_object)：用于打开操作页面
 """
 from base_page.base_page import BasePage  # 从 base_page 模块导入 BasePage 类，作为所有页面类的基类
+from selenium.webdriver.remote.webdriver import WebDriver  # 导入 WebDriver 类型注解
 import logging  # 引入logging库，用于记录日志信息
 
 # 配置日志记录格式和日志级别，记录日志的详细信息（时间戳、日志级别、日志消息）
@@ -18,6 +19,16 @@ class OpenPage(BasePage):  # 定义 OpenPage 类，并继承自 BasePage 类
     - 通过调用基类方法完成具体的浏览器行为。
     """
     url = r'https://www.baidu.com'  # 定义类属性 url，存储要打开的目标网址（此处为百度首页）
+
+    def __init__(self, driver: WebDriver):  # 显式指定 driver 类型为 WebDriver
+        """
+        初始化 OpenPage 实例。
+
+        参数:
+            driver (WebDriver): Selenium 的 WebDriver 浏览器驱动对象
+        """
+        super().__init__(driver)  # 调用基类构造方法，初始化 driver
+        self.driver: WebDriver = driver  # 为 IDE/检查器提供明确的类型提示
 
     def openurl(self):  # 定义 openurl 方法，用于打开指定网址
         """
