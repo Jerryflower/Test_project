@@ -6,6 +6,7 @@ from page_object.search_page import SearchPage  # 搜索页对象
 from page_object.open_page import OpenPage  # 打开页面对象
 from page_object.scroll_page import ScrollPage  # 滚动页面对象
 from page_object.flip_page import FlipPage  # 翻页对象
+from page_object.titles_page import TitlesPage  # 获取标题对象
 
 # 配置日志格式和日志等级
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")  # 日志输出格式
@@ -33,6 +34,7 @@ def pages(driver, test_data):  # 模块级 fixture，提供页面对象和测试
         "open": OpenPage(driver),  # 打开页面对象
         "scroll": ScrollPage(driver),  # 滚动页面对象
         "flip": FlipPage(driver),  # 翻页对象
+        "titles": TitlesPage(driver),  # 翻页对象
         "data": test_data,  # 测试数据
     }
 
@@ -64,7 +66,7 @@ def test_search(pages):
         3. 每页滚动并截图页首和页尾
         4. 翻页继续
     """
-    sp, scp, fp = pages["search"], pages["scroll"], pages["flip"]  # 获取页面对象
+    sp, scp, fp, tp = pages["search"], pages["scroll"], pages["flip"], pages['titles']  # 获取页面对象
     text_list = pages["data"].get("text_list", [])  # 获取搜索关键词列表，默认为空
     flip_num = 5  # 设置翻页次数
     logger.info("开始搜索关键词，共 %d 个", len(text_list))  # 日志记录关键词数量
@@ -72,10 +74,11 @@ def test_search(pages):
     for idx, word in enumerate(text_list, start=1):
         keyword = word["content"]
         logger.info("第 %d 次搜索: %s", idx, keyword)  # 日志记录
-        sp.search_(keyword)
+        sp.search_(keyword)  # 点击搜索按钮
         logger.info("已执行搜索: %s", keyword)  # 日志记录搜索完成
 
         for page in range(1, flip_num + 1):
+            tp.titles_(page)  # 打印标题
             logger.info("第 %d 页操作开始: %s", page, keyword)  # 日志记录页数
             screenshot_step(sp.driver, f"{keyword}-第{page}页-页首")  # 截图页首
             scp.scroll_()  # 页面滚动
