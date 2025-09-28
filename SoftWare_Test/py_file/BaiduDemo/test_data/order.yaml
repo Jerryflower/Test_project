@@ -1,5 +1,5 @@
-﻿text_list:
+﻿flip_num: 5   # 全局参数，翻转次数
+text_list:    # 文本列表
   - content: 生活的本质
   - content: CICD
   - content: AGI
-  - content: white
