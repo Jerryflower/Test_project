@@ -83,7 +83,7 @@ def test_search(pages):
     # 获取页面对象，方便后续调用各类操作
     sp, scp, fp, tp = pages["search"], pages["scroll"], pages["flip"], pages['titles']
     text_list = pages["data"].get("text_list", [])  # 获取搜索关键词列表，默认为空列表
-    flip_num = pages["data"].get("flip_num", 3)  # 从配置文件读取翻页次数，默认值 3
+    flip_num = pages["data"].get("flip_num")  # 从配置文件读取翻页次数
     logger.info("开始搜索关键词，共 %d 个", len(text_list))  # 日志记录关键词数量
 
     for idx, word in enumerate(text_list, start=1):
