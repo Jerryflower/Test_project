@@ -1,7 +1,5 @@
-﻿flip_num: 3   # 全局参数，翻转次数
+﻿flip_num: 2   # 全局参数，翻转次数
 text_list:    # 文本列表
-  - content: 生活的本质
-  - content: CICD
-  - content: AGI
-  - content: 阿玛特拉斯
-  - content: 我太想进步了
+  - content: NCPD
+  - content: 师尊我太想进步了
+  - content: My Back
